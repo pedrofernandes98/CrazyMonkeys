@@ -13,17 +13,18 @@ namespace CrazyMonkeys.ViewModel
 
         public MonkeyService MonkeyService;
 
-        //public ICommand GetMonkeysCommand; 
+        //public Command GetMonkeysCommand; 
 
         public MonkeyViewModel(MonkeyService monkeyService)
         {
             Title = "CrazyMonkeys List";
             MonkeyService = monkeyService;
             //GetMonkeysCommand = new Command(async () => await GetMonkeyAsync());
+            //GetMonkeysCommand.CanExecute();
         }
 
         [ICommand]
-        public async Task GetMonkeyAsync()
+        private async Task GetMonkeysAsync()
         {
             if (IsBusy)
                 return;
@@ -34,15 +35,18 @@ namespace CrazyMonkeys.ViewModel
 
                 var monkeys = await MonkeyService.GetMonkeys();
                 
-                if (MonkeyList.Count > 0)
+                if (MonkeyList.Count != 0)
                     MonkeyList.Clear();
 
+                //A lista é pequena, por isso adicionamos um a um e a ObservableCollection chama o método RaisePropertyChanged()
+                //Talvez em aplicações que tem mais dados seja mais interessante adicionar toda a lista de uma única vez ou um Range() da lista ...
                 foreach (var monkey in monkeys)
                     MonkeyList.Add(monkey);
             }
             catch(Exception ex)
             {
                 Debug.WriteLine($"Não foi possível completar a requisição: {ex.Message}");
+                //App.Current.MainPage.DisplayAlert();
                 await Shell.Current.DisplayAlert("Erro!", ex.Message, "Ok");
             }
             finally

@@ -1,4 +1,6 @@
-﻿namespace CrazyMonkeys;
+﻿using CrazyMonkeys.Services;
+
+namespace CrazyMonkeys;
 
 public static class MauiProgram
 {
@@ -12,6 +14,11 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
+
+		builder.Services.AddSingleton<MonkeyService>();
+
+		builder.Services.AddSingleton<MonkeyViewModel>();
+
 
         builder.Services.AddSingleton<MainPage>();
 
