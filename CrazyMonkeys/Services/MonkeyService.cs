@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace CrazyMonkeys.Services
 {
-    public class MonkeyServicste
+    public class MonkeyService
     {
         private readonly string urlRequest = "https://www.montemagno.com/monkeys.json";
 
@@ -12,7 +12,7 @@ namespace CrazyMonkeys.Services
 
         public HttpClient client;
 
-        public MonkeyServicste()
+        public MonkeyService()
         {
             client = new HttpClient();
         }
