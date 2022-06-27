@@ -1,10 +1,13 @@
-﻿namespace CrazyMonkeys;
+﻿using CrazyMonkeys.ViewModel;
+
+namespace CrazyMonkeys;
 
 public partial class MainPage : ContentPage
 {
-	public MainPage()
+	public MainPage(MonkeyViewModel monkeyViewModel)
 	{
 		InitializeComponent();
+		this.BindingContext = monkeyViewModel;
 	}
 }
 

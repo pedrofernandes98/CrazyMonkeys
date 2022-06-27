@@ -9,6 +9,8 @@
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            
+            <!--TODO: Criar StaticResources para a MainPage-->
         </ResourceDictionary>
     </Application.Resources>
 </Application>

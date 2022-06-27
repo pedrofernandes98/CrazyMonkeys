@@ -1,4 +1,5 @@
 ﻿using CrazyMonkeys.Services;
+using CrazyMonkeys.ViewModel;
 
 namespace CrazyMonkeys;
 
@@ -18,7 +19,6 @@ public static class MauiProgram
 		builder.Services.AddSingleton<MonkeyService>();
 
 		builder.Services.AddSingleton<MonkeyViewModel>();
-
 
         builder.Services.AddSingleton<MainPage>();
 

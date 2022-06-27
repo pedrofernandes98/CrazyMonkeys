@@ -2,63 +2,68 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:model="clr-namespace:CrazyMonkeys.Models"
-             x:Class="CrazyMonkeys.MainPage">
+             xmlns:viewmodel="clr-namespace:CrazyMonkeys.ViewModel"
+             x:Class="CrazyMonkeys.MainPage"
+             x:DataType="viewmodel:MonkeyViewModel"
+             Title="{Binding Title}">
 
-    <CollectionView>
-        <CollectionView.ItemsSource>
-            <x:Array Type="{x:Type model:Monkey}">
-                <model:Monkey 
-                   Name="Mandrill"
-                   Location="Southern Cameroon, Gabon, and Congo"
-                   Image="https://raw.githubusercontent.com/jamesmontemagno/app-monkeys/master/mandrill.jpg"/>
-                <model:Monkey 
-                   Name="Henry"
-                   Location="Phoenix"
-                   Image="https://raw.githubusercontent.com/jamesmontemagno/app-monkeys/master/henry.jpg"/>
-                <model:Monkey 
-                   Name="Red-shanked douc"
-                   Location="Vietnam"
-                   Image="https://raw.githubusercontent.com/jamesmontemagno/app-monkeys/master/douc.jpg"/>
-                <model:Monkey 
-                   Name="Mandrill2"
-                   Location="Southern Cameroon, Gabon, and Congo"
-                   Image="https://raw.githubusercontent.com/jamesmontemagno/app-monkeys/master/mandrill.jpg"/>
-                <model:Monkey 
-                   Name="Henry2"
-                   Location="Phoenix2"
-                   Image="https://raw.githubusercontent.com/jamesmontemagno/app-monkeys/master/henry.jpg"/>
-                <model:Monkey 
-                   Name="Red-shanked douc2"
-                   Location="Vietnam"
-                   Image="https://raw.githubusercontent.com/jamesmontemagno/app-monkeys/master/douc.jpg"/>
-                <model:Monkey 
-                   Name="Mandrill3"
-                   Location="Southern Cameroon, Gabon, and Congo"
-                   Image="https://raw.githubusercontent.com/jamesmontemagno/app-monkeys/master/mandrill.jpg"/>
-                <model:Monkey 
-                   Name="Henry3"
-                   Location="Phoenix3"
-                   Image="https://raw.githubusercontent.com/jamesmontemagno/app-monkeys/master/henry.jpg"/>
-                <model:Monkey 
-                   Name="Red-shanked douc3"
-                   Location="Vietnam"
-                   Image="https://raw.githubusercontent.com/jamesmontemagno/app-monkeys/master/douc.jpg"/>
-            </x:Array>
-        </CollectionView.ItemsSource>
-        <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="model:Monkey">
-                <HorizontalStackLayout Padding="10" Spacing="10">
-                    <Image Source="{Binding Image}" 
-                           Aspect="AspectFill" 
-                           HeightRequest="100"
-                           WidthRequest="100"
+    <Grid ColumnDefinitions="*,*"
+          ColumnSpacing="5"
+          RowDefinitions="*,Auto"
+          RowSpacing="0"
+          >
+
+        <CollectionView 
+            ItemsSource="{Binding MonkeyList}"
+            BackgroundColor="LightGray"
+            Grid.ColumnSpan="2"
+            SelectionMode="None">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:Monkey">
+                    <Grid Padding="10">
+                        <Frame HeightRequest="125" Padding="0">
+                            <Grid Padding="0" ColumnDefinitions="125,*">
+                                <Image Source="{Binding Image}"
+                                       Aspect="AspectFill"
+                                       WidthRequest="125"
+                                       HeightRequest="125"
+                                       />
+
+                                <VerticalStackLayout 
+                                    Grid.Column="1"
+                                    VerticalOptions="Center"
+                                    Padding="10"
+                                    Spacing="5"
+                                    >
+                                    <Label Text="{Binding Name}" FontSize="16" FontAttributes="Bold"/>
+                                    <Label Text="{Binding Location}"/>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Frame>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+        <Button 
+            Command="{Binding GetMonkeysCommand}"
+            IsEnabled="{Binding IsNotBusy}"
+            Grid.Row="1"
+            Text="Buscar"
+            Margin="8" />
+
+        <ActivityIndicator IsVisible="{Binding IsBusy}"
+                           IsRunning="{Binding IsBusy}"
+                           HorizontalOptions="FillAndExpand"
+                           VerticalOptions="CenterAndExpand"
+                           Grid.RowSpan="2"
+                           Grid.ColumnSpan="2"
                            />
-                    <VerticalStackLayout VerticalOptions="Center" Spacing="5">
-                        <Label Text="{Binding Name}" FontSize="24" FontAttributes="Bold" />
-                        <Label Text="{Binding Location}" />
-                    </VerticalStackLayout>
-                </HorizontalStackLayout>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+
+
+
+    </Grid>
+
 </ContentPage>
