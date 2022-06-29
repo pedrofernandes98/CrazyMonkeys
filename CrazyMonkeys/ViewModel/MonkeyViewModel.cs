@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using CommunityToolkit.Mvvm.Input;
 using System.Windows.Input;
+using CrazyMonkeys.View;
 
 namespace CrazyMonkeys.ViewModel
 {
@@ -54,5 +55,20 @@ namespace CrazyMonkeys.ViewModel
                 IsBusy = false;
             }
         }
+
+        [ICommand]
+        private async Task OnClick_Monkey(Monkey monkey)
+        {
+            if (monkey == null)
+                return;
+            
+            //TODO/TOSEARCH criar uma interface e injetar essa navegação
+            await Shell.Current.GoToAsync(nameof(MonkeyDetailsPage), true,
+                    new Dictionary<string, object>
+                    {
+                        {"Monkey", monkey }
+                    });
+        }
+        
     }
 }

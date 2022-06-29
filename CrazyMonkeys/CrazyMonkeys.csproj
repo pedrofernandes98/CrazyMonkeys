@@ -53,4 +53,10 @@
 		<PackageReference Include="System.Text.Json" Version="6.0.2"></PackageReference>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <MauiXaml Update="View\MonkeyDetailsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
 </Project>

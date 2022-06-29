@@ -23,6 +23,12 @@
                 <DataTemplate x:DataType="model:Monkey">
                     <Grid Padding="10">
                         <Frame HeightRequest="125" Padding="0">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MonkeyViewModel}}, Path=OnClick_MonkeyCommand}"
+                                    CommandParameter="{Binding .}"
+                                    />
+                            </Frame.GestureRecognizers>
                             <Grid Padding="0" ColumnDefinitions="125,*">
                                 <Image Source="{Binding Image}"
                                        Aspect="AspectFill"
