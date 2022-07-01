@@ -2,5 +2,45 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CrazyMonkeys.View.MonkeyDetailsPage"
+             xmlns:viewmodel="clr-namespace:CrazyMonkeys.ViewModel"
+             x:DataType="viewmodel:MonkeyDetailsViewModel"
              Title="{Binding Monkey.Name}">
+
+    <ScrollView>
+        <VerticalStackLayout>
+            <Grid ColumnDefinitions="*,Auto,*"
+                  RowDefinitions="160,Auto"
+                  >
+                <BoxView Grid.ColumnSpan="3"
+                         Background="{StaticResource Primary}"
+                         HeightRequest="160"
+                         HorizontalOptions="FillAndExpand"/>
+
+                <Frame Grid.Column="1"
+                       Grid.RowSpan="2"
+                       Margin="0,80,0,0"
+                       HeightRequest="160"
+                       WidthRequest="160"
+                       HorizontalOptions="Center"
+                       CornerRadius="80"
+                       IsClippedToBounds="True">
+
+                    <Image Source="{Binding Monkey.Image}"
+                           HeightRequest="160"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           Aspect="AspectFill"
+                           WidthRequest="160"
+                           />
+
+                </Frame>
+            </Grid>
+            <VerticalStackLayout Spacing="20" Padding="20">
+                <Label Text="{Binding Monkey.Details}" FontSize="Small" />
+                <Label Text="{Binding Monkey.Location, StringFormat='Localização: {0}'}" FontSize="Medium"/>
+                <Label Text="{Binding Monkey.Population, StringFormat='População: {0}'}"  FontSize="Medium" />
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+    
 </ContentPage>
