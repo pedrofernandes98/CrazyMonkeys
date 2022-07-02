@@ -5,6 +5,7 @@ using System.Diagnostics;
 using CommunityToolkit.Mvvm.Input;
 using System.Windows.Input;
 using CrazyMonkeys.View;
+using Microsoft.Maui.Devices.Sensors;
 
 namespace CrazyMonkeys.ViewModel
 {
@@ -14,17 +15,25 @@ namespace CrazyMonkeys.ViewModel
 
         public MonkeyService MonkeyService;
 
-        public IConnectivity connectivity;
+        IConnectivity connectivity;
+
+        IGeolocation geolocation;
 
         //public Command GetMonkeysCommand; 
 
-        public MonkeyViewModel(MonkeyService monkeyService, IConnectivity connectivity)
+        public MonkeyViewModel(MonkeyService monkeyService, IConnectivity connectivity, IGeolocation geolocation)
         {
             Title = "CrazyMonkeys List";
             MonkeyService = monkeyService;
             this.connectivity = connectivity;
+            this.geolocation = geolocation;
             //GetMonkeysCommand = new Command(async () => await GetMonkeyAsync());
             //GetMonkeysCommand.CanExecute();
+        }
+
+        private bool HasInternet()
+        {
+            return connectivity.NetworkAccess == NetworkAccess.Internet;
         }
 
         [ICommand]
@@ -35,7 +44,7 @@ namespace CrazyMonkeys.ViewModel
 
             try
             {
-                if(connectivity.NetworkAccess != NetworkAccess.Internet)
+                if(!HasInternet())
                 {
                     throw new Exception("Por favor, verifique a sua internet e tente novamente.");
                 }
@@ -64,6 +73,8 @@ namespace CrazyMonkeys.ViewModel
             }
         }
 
+        
+
         [ICommand]
         private async Task OnClick_Monkey(Monkey monkey)
         {
@@ -77,6 +88,48 @@ namespace CrazyMonkeys.ViewModel
                         {"Monkey", monkey }
                     });
         }
-        
+
+        [ICommand]
+
+        async Task GetClosestMonkeyAsync()
+        {
+            if (IsBusy || MonkeyList.Count == 0)
+                return;
+
+            try
+            {
+
+
+                var userLocation = geolocation.GetLastKnownLocationAsync();
+
+                if (userLocation == null)
+                {
+                    userLocation = geolocation.GetLocationAsync(new GeolocationRequest
+                    {
+                        DesiredAccuracy = GeolocationAccuracy.Medium,
+                        Timeout = TimeSpan.FromSeconds(30)
+                    });
+
+
+                }
+
+                var closestMonkey = MonkeyList.OrderBy(m => Location.CalculateDistance(
+                    locationStart: userLocation.Result,
+                    locationEnd: new Location(m.Latitude, m.Longitude),
+                    DistanceUnits.Kilometers))
+                    .FirstOrDefault();
+
+                //TODO - Incluir textos puros em um arquivo de Resources
+                if (closestMonkey != null)
+                    await Shell.Current.DisplayAlert("Macaquinho encontrado",
+                        string.Format("O macaquinho mais próximo é o {0} e se encontra no {1}",
+                        closestMonkey.Name, closestMonkey.Location), "Ok");
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine($"Não foi possível completar a requisição: {ex.Message}");
+                await Shell.Current.DisplayAlert("Erro!", ex.Message, "Ok");
+            }
+        } 
     }
 }

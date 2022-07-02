@@ -60,6 +60,14 @@
             Text="Buscar"
             Margin="8" />
 
+        <Button 
+            Command="{Binding GetClosestMonkeyCommand}"
+            IsEnabled="{Binding IsNotBusy}"
+            Grid.Row="1"
+            Grid.Column="1"
+            Text="Mais próximo"
+            Margin="8" />
+
         <ActivityIndicator IsVisible="{Binding IsBusy}"
                            IsRunning="{Binding IsBusy}"
                            HorizontalOptions="FillAndExpand"
