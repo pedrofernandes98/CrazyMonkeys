@@ -35,6 +35,15 @@
 
                 </Frame>
             </Grid>
+
+            <Button
+                Text="Mostar no Mapa"
+                Command="{Binding ShowLocationOnMapCommand}"
+                IsEnabled="{Binding IsNotBusy}"
+                WidthRequest="200"
+                HorizontalOptions="Center"
+                Margin="8" />
+
             <VerticalStackLayout Spacing="20" Padding="20">
                 <Label Text="{Binding Monkey.Details}" FontSize="Small" />
                 <Label Text="{Binding Monkey.Location, StringFormat='Localização: {0}'}" FontSize="Medium"/>
