@@ -14,12 +14,15 @@ namespace CrazyMonkeys.ViewModel
 
         public MonkeyService MonkeyService;
 
+        public IConnectivity connectivity;
+
         //public Command GetMonkeysCommand; 
 
-        public MonkeyViewModel(MonkeyService monkeyService)
+        public MonkeyViewModel(MonkeyService monkeyService, IConnectivity connectivity)
         {
             Title = "CrazyMonkeys List";
             MonkeyService = monkeyService;
+            this.connectivity = connectivity;
             //GetMonkeysCommand = new Command(async () => await GetMonkeyAsync());
             //GetMonkeysCommand.CanExecute();
         }
@@ -32,6 +35,11 @@ namespace CrazyMonkeys.ViewModel
 
             try
             {
+                if(connectivity.NetworkAccess != NetworkAccess.Internet)
+                {
+                    throw new Exception("Por favor, verifique a sua internet e tente novamente.");
+                }
+
                 IsBusy = true;
 
                 var monkeys = await MonkeyService.GetMonkeys();
