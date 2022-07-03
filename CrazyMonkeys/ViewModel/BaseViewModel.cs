@@ -53,6 +53,9 @@ namespace CrazyMonkeys.ViewModel
         [AlsoNotifyChangeFor(nameof(IsNotBusy))]
         public bool isBusy;
 
+        [ObservableProperty]
+        public bool isRefreshing;
+
         public bool IsNotBusy => !IsBusy;
     }
 }

@@ -70,10 +70,9 @@ namespace CrazyMonkeys.ViewModel
             finally
             {
                 IsBusy = false;
+                IsRefreshing = false;
             }
         }
-
-        
 
         [ICommand]
         private async Task OnClick_Monkey(Monkey monkey)
@@ -98,8 +97,6 @@ namespace CrazyMonkeys.ViewModel
 
             try
             {
-
-
                 var userLocation = geolocation.GetLastKnownLocationAsync();
 
                 if (userLocation == null)

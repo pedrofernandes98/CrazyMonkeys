@@ -13,46 +13,64 @@
           RowSpacing="0"
           >
 
-        <CollectionView 
-            ItemsSource="{Binding MonkeyList}"
-            BackgroundColor="LightGray"
-            Grid.ColumnSpan="2"
-            SelectionMode="None">
+        <RefreshView Command="{Binding GetMonkeysCommand}"
+                     IsRefreshing="{Binding IsRefreshing}"
+                     Grid.ColumnSpan="2">
+            <CollectionView 
+                ItemsSource="{Binding MonkeyList}"
+                BackgroundColor="LightGray"
+                SelectionMode="None">
 
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="model:Monkey">
-                    <Grid Padding="10">
-                        <Frame HeightRequest="125" Padding="0">
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MonkeyViewModel}}, Path=OnClick_MonkeyCommand}"
-                                    CommandParameter="{Binding .}"
-                                    />
-                            </Frame.GestureRecognizers>
-                            <Grid Padding="0" ColumnDefinitions="125,*">
-                                <Image Source="{Binding Image}"
-                                       Aspect="AspectFill"
-                                       WidthRequest="125"
-                                       HeightRequest="125"
-                                       />
+                <CollectionView.EmptyView>
+                    <StackLayout VerticalOptions="Center"
+                                 HorizontalOptions="Center"
+                                 WidthRequest="200"
+                                 HeightRequest="200">
+                        <Image Source="monkey.png"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center"
+                               Aspect="AspectFill"
+                               WidthRequest="150"
+                               HeightRequest="150"/>
 
-                                <VerticalStackLayout 
-                                    Grid.Column="1"
-                                    VerticalOptions="Center"
-                                    Padding="10"
-                                    Spacing="5"
-                                    >
-                                    <Label Text="{Binding Name}" FontSize="16" FontAttributes="Bold"/>
-                                    <Label Text="{Binding Location}"/>
-                                </VerticalStackLayout>
-                            </Grid>
-                        </Frame>
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
+                        <Label Text="Sem macaquinhos disponíveis, clique em &quot;Buscar&quot;."/>
+                    </StackLayout>
+                    
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Monkey">
+                        <Grid Padding="10">
+                            <Frame HeightRequest="125" Padding="0">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MonkeyViewModel}}, Path=OnClick_MonkeyCommand}"
+                                        CommandParameter="{Binding .}"
+                                        />
+                                </Frame.GestureRecognizers>
+                                <Grid Padding="0" ColumnDefinitions="125,*">
+                                    <Image Source="{Binding Image}"
+                                           Aspect="AspectFill"
+                                           WidthRequest="125"
+                                           HeightRequest="125"
+                                           />
 
-        </CollectionView>
+                                    <VerticalStackLayout 
+                                        Grid.Column="1"
+                                        VerticalOptions="Center"
+                                        Padding="10"
+                                        Spacing="5"
+                                        >
+                                        <Label Text="{Binding Name}" FontSize="16" FontAttributes="Bold"/>
+                                        <Label Text="{Binding Location}"/>
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
 
+            </CollectionView>
+        </RefreshView>
         <Button 
             Command="{Binding GetMonkeysCommand}"
             IsEnabled="{Binding IsNotBusy}"
