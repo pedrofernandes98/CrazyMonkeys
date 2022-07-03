@@ -89,7 +89,6 @@ namespace CrazyMonkeys.ViewModel
         }
 
         [ICommand]
-
         async Task GetClosestMonkeyAsync()
         {
             if (IsBusy || MonkeyList.Count == 0)
